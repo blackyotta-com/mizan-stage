@@ -5,6 +5,7 @@ import Head from 'next/head';
 export default function HomePage() {
   const [language, setLanguage] = useState('en');
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   // Language handling
   useEffect(() => {
@@ -114,26 +115,52 @@ export default function HomePage() {
     }
   };
 
-  // Intersection Observer for animations
+  // Intersection Observer for animations and active section detection
   useEffect(() => {
     const fadeElements = document.querySelectorAll('.fade-in');
     
-    const observer = new IntersectionObserver(
+    const fadeObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
+            fadeObserver.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.25 }
     );
 
-    fadeElements.forEach((el) => observer.observe(el));
+    fadeElements.forEach((el) => fadeObserver.observe(el));
 
     return () => {
-      fadeElements.forEach((el) => observer.unobserve(el));
+      fadeElements.forEach((el) => fadeObserver.unobserve(el));
+    };
+  }, []);
+
+  // Separate effect for active section detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'about', 'services', 'contact'];
+      const scrollPosition = window.scrollY + 100; // offset for header
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i]);
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    };
+
+    // Set initial active section
+    handleScroll();
+    
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -160,10 +187,10 @@ export default function HomePage() {
           </button>
           <nav id="primary-nav" aria-label="Primary" className="nav-wrapper">
             <ul className={`nav-links ${isNavOpen ? 'open' : ''}`} id="nav-links">
-              <li><a href="#home" className="active" onClick={(e) => { handleSmoothScroll(e, '#home'); closeMobileNav(); }}>Home</a></li>
-              <li><a href="#about" onClick={(e) => { handleSmoothScroll(e, '#about'); closeMobileNav(); }}>About Us</a></li>
-              <li><a href="#services" onClick={(e) => { handleSmoothScroll(e, '#services'); closeMobileNav(); }}>Services</a></li>
-              <li><a href="#contact" onClick={(e) => { handleSmoothScroll(e, '#contact'); closeMobileNav(); }}>Contact</a></li>
+              <li><a href="#home" className={activeSection === 'home' ? 'active' : ''} onClick={(e) => { handleSmoothScroll(e, '#home'); closeMobileNav(); }}>Home</a></li>
+              <li><a href="#about" className={activeSection === 'about' ? 'active' : ''} onClick={(e) => { handleSmoothScroll(e, '#about'); closeMobileNav(); }}>About Us</a></li>
+              <li><a href="#services" className={activeSection === 'services' ? 'active' : ''} onClick={(e) => { handleSmoothScroll(e, '#services'); closeMobileNav(); }}>Services</a></li>
+              <li><a href="#contact" className={activeSection === 'contact' ? 'active' : ''} onClick={(e) => { handleSmoothScroll(e, '#contact'); closeMobileNav(); }}>Contact</a></li>
             </ul>
           </nav>
           <div className="lang-switch" role="group" aria-label="Language switcher">
@@ -381,17 +408,17 @@ export default function HomePage() {
               <div className="form-group">
                 <label htmlFor="name" className={language === 'en' ? '' : 'hidden'}>Name</label>
                 <label htmlFor="name" className={language === 'ar' ? '' : 'hidden'} dir="rtl">الاسم</label>
-                <input id="name" name="name" type="text" required autoComplete="name" />
+                <input id="name" name="name" type="text" required autoComplete="name" suppressHydrationWarning />
               </div>
               <div className="form-group">
                 <label htmlFor="email" className={language === 'en' ? '' : 'hidden'}>Email</label>
                 <label htmlFor="email" className={language === 'ar' ? '' : 'hidden'} dir="rtl">البريد الإلكتروني</label>
-                <input id="email" name="email" type="email" required autoComplete="email" />
+                <input id="email" name="email" type="email" required autoComplete="email" suppressHydrationWarning />
               </div>
               <div className="form-group">
                 <label htmlFor="message" className={language === 'en' ? '' : 'hidden'}>Your Case / Message</label>
                 <label htmlFor="message" className={language === 'ar' ? '' : 'hidden'} dir="rtl">وصف القضية / الرسالة</label>
-                <textarea id="message" name="message" required></textarea>
+                <textarea id="message" name="message" required suppressHydrationWarning></textarea>
               </div>
               <input type="hidden" name="_subject" value="New inquiry from Mizan Law website" />
               <button className="btn" type="submit">Send Inquiry</button>

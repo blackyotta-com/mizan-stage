@@ -208,8 +208,75 @@ body[dir='rtl'] .testimonial:before { left:auto; right:20px; }
 .skip
 .skip-link:focus { left:8px; top:8px; width:auto; height:auto; background:#000; color:#fff; padding:10px 18px; border-radius:var(--radius-lg); z-index:200; }
 
-@media (max-width:600px){
-  .hero { padding:90px 0 80px; }
-  .badges { margin:20px 0 30px; }
-  .service-card { padding:26px 22px 30px; }
+/* Mobile Responsive Improvements */
+@media (max-width:768px){
+  /* General mobile improvements */
+  .container { padding:0 20px; }
+  .section { padding:60px 0; }
+  
+  /* Hero section mobile optimizations */
+  .hero { padding:80px 0 70px; background-attachment:scroll !important; }
+  .hero:after { background-size:cover; background-position:center center; background-attachment:scroll !important; }
+  .hero .container { padding-left:4vw; padding-right:4vw; }
+  .hero-grid { gap:40px; grid-template-columns:1fr; }
+  
+  /* Services section mobile fixes */
+  .section#services { background-attachment:scroll !important; }
+  .services-grid { gap:24px; grid-template-columns:1fr; }
+  .service-card { padding:24px 20px 28px; }
+  
+  /* About section mobile improvements */
+  .about-enhanced { background-attachment:scroll !important; background-position:center center; }
+  .about-grid { gap:28px; grid-template-columns:1fr; }
+  .about-panel { padding:28px 24px 32px; }
+  .feature-cards { grid-template-columns:1fr; gap:16px; }
+  .stats-row { grid-template-columns:repeat(2,1fr); gap:16px; }
+  
+  /* Contact section mobile fixes */
+  #contact { background-attachment:scroll !important; background-position:center center; }
+  .contact-wrap { gap:30px; grid-template-columns:1fr; }
+  .contact-card { padding:24px 20px 28px; }
+  
+  /* Clients section mobile fixes */
+  .section#clients { background-attachment:scroll !important; }
+  .clients-logos { gap:24px; }
+  .client-logo { padding:16px 24px; min-height:120px; }
+  .client-logo img { max-height:100px; }
+  
+  /* Typography mobile adjustments */
+  .hero-copy .lead { font-size:1.05rem; }
+  .badges { gap:10px; margin:20px 0 30px; }
+  .badge { font-size:.75rem; padding:8px 14px; }
+  
+  /* Button mobile improvements */
+  .btn { --btn-pad-x:24px; --btn-pad-y:12px; font-size:.95rem; }
+  
+  /* Footer mobile improvements */
+  .footer-grid { gap:28px; grid-template-columns:repeat(2,1fr); }
+}
+
+@media (max-width:480px){
+  /* Extra small screens */
+  .container { padding:0 16px; }
+  .hero { padding:70px 0 60px; }
+  .hero .container { padding-left:16px; padding-right:16px; }
+  .hero-grid { gap:30px; }
+  
+  /* Make buttons full width on very small screens */
+  .hero-copy > div { display:flex; flex-direction:column; gap:12px; }
+  .btn { width:100%; justify-content:center; }
+  
+  /* Smaller service cards */
+  .service-card { padding:20px 16px 24px; }
+  .service-icon { width:48px; height:48px; font-size:1.25rem; }
+  
+  /* Contact form improvements */
+  .contact-card { padding:20px 16px 24px; }
+  
+  /* Footer single column on very small screens */
+  .footer-grid { grid-template-columns:1fr; gap:24px; }
+  
+  /* About panels smaller padding */
+  .about-panel { padding:24px 20px 28px; }
+  .stats-row { grid-template-columns:1fr; }
 }
